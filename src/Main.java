@@ -7,6 +7,7 @@ public class Main {
 		Window window = Window.getInstance();
 		System.out.println("MAIN");
 		//Game game = Game.getInstance();
+		
 	
 	}
 

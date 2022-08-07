@@ -5,7 +5,7 @@ import javax.swing.JLabel;
 public class Food extends JLabel{
 
 	static Food object = new Food();
-	private Grid grid = Grid.getInstance();
+	private Grid grid = Grid.get();
 	private RandomColor randomColor = RandomColor.getInstance();
 	int w = 42;
 	int h = 42;
@@ -29,7 +29,7 @@ public class Food extends JLabel{
 	public void paste() {
 		
 		//this.setBackground(randomColor.getNext());
-		
+		/*
 		this.setBackground(Color.WHITE);
 		this.setForeground(Color.WHITE);
 		int[] randomPos = grid.getRandom();
@@ -57,5 +57,7 @@ public class Food extends JLabel{
 		System.out.println("INSERT FOOD");
 
 		//grid.print();
+		 * 
+		 */
 	}
 }

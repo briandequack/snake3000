@@ -6,9 +6,8 @@ import javax.swing.JPanel;
 public class LevelBuilder{
 
 	static LevelBuilder object = new LevelBuilder();
-	private Canvas canvas = Canvas.getInstance();
-	private Levels levels = Levels.getInstance();
-	private Grid grid = Grid.getInstance();
+	private Levels levels = Levels.get();
+	private Grid grid = Grid.get();
 	private Food food = Food.getInstance();
 	
 	
@@ -34,7 +33,9 @@ public class LevelBuilder{
 		
 	
 		
-		int [][] gridMapped = grid.map(level, 10, 10, 420, 420);
+		//grid.mapper(level);
+		
+		/*
 		System.out.println("LOLOLOOLOLO");
 		int i = 0;
 		
@@ -42,10 +43,17 @@ public class LevelBuilder{
 			if(gridMapped[i][0]==1) {
 				
 				
-				Square block = new Square(42,42);
-				block.type = 1;
-				block.paste(gridMapped[i][1], gridMapped[i][2]);
-				game.add(block);
+				//Square block = new Square(42,42);
+				//block.type = 1;
+				//block.paste(gridMapped[i][1], gridMapped[i][2]);
+				//game.add(block);
+				
+				// here 	
+				//grid.addToGrid(new Cell(gridMapped[i][1], 
+				//						gridMapped[i][2]));
+				
+	
+				
 			
 			} else if (gridMapped[i][0]==9) {
 				
@@ -59,6 +67,7 @@ public class LevelBuilder{
 			i++;
 		}
 		this.addFood();	
+		*/
 		
 		
 	}

@@ -1,9 +1,12 @@
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.util.Timer;
 import java.util.TimerTask;
 import javax.swing.AbstractAction;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
@@ -12,9 +15,12 @@ import javax.swing.KeyStroke;
 public class Game extends JPanel{
 
 	static Game instance = new Game();
-	private LevelBuilder levelBuilder = LevelBuilder.getInstance();
-	private Snake snake = Snake.getInstance();
-	private Grid grid = Grid.getInstance();
+	private Grid grid = Grid.get();
+	private Levels levels = Levels.get();
+	
+	//private LevelBuilder levelBuilder = LevelBuilder.getInstance();
+	//private Snake snake = Snake.getInstance();
+	
 	
 	boolean playing = false;
 	boolean timeFirstLoad = true;
@@ -31,8 +37,19 @@ public class Game extends JPanel{
 		
 		this.setBackground(Color.RED);
 		this.setPreferredSize(new Dimension(420, 420));
-		this.setLayout(null);
+		this.setLayout(new BorderLayout());
 		this.setOpaque(true);
+		
+		
+		this.add(grid);
+		grid.mapper(levels.level1);
+		
+		
+		//System.out.println(grid.walls.get(5));
+
+
+		
+		grid.print();
 		
 		up = new Up();
 		this.getInputMap().put(KeyStroke.getKeyStroke("UP"),"up");
@@ -52,11 +69,12 @@ public class Game extends JPanel{
 	public void start() {
 		StartWindow startWindow = StartWindow.getInstance();
 		
-		this.levelBuilder.build((String)startWindow.cb.getSelectedItem());
+		//this.levelBuilder.build((String)startWindow.cb.getSelectedItem());
 	}
 
 		
 	public void play() {
+		/*
 		snake.move();	
 
 		if(snake.eating == true) {		
@@ -82,6 +100,9 @@ public class Game extends JPanel{
 		} 
 		
 		//grid.print();
+		 * 
+		 * 
+		 */
 
 	}
 	
@@ -114,7 +135,7 @@ public class Game extends JPanel{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			playing();
-			snake.up();
+			//snake.up();
 			
 		}
 		
@@ -126,7 +147,7 @@ public class Game extends JPanel{
 		public void actionPerformed(ActionEvent e) {
 			//System.out.println("down");
 			playing();
-			snake.down();
+			//snake.down();
 			
 		}
 		
@@ -137,7 +158,7 @@ public class Game extends JPanel{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			playing();
-			snake.left();
+			//snake.left();
 			
 		}
 		
@@ -148,7 +169,7 @@ public class Game extends JPanel{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			playing();
-			snake.right();
+			//snake.right();
 			
 		}
 		
@@ -169,7 +190,7 @@ public class Game extends JPanel{
 		this.task = null;
 		this.numFoods = 1;
 
-		this.snake.reset();
+		//this.snake.reset();
 		this.grid.reset();
 		this.removeAll();
 		this.revalidate();

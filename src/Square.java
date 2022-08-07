@@ -6,10 +6,14 @@ import javax.swing.JLabel;
 
 public class Square extends JLabel{
 	
+	Grid grid = Grid.get();
+	int width = 42;
+	int height = 42;
+	
 	Integer column = null;
 	Integer row = null;
 	int signature = 0;
-	Grid grid = Grid.getInstance();
+	
 	int nextColumn;
 	int nextRow;
 	public int type = 0;
@@ -36,6 +40,7 @@ public class Square extends JLabel{
 	
 	public void paste(int column, int row) {
 		//System.out.println("MOVE "+ this.type);
+		/*
 		this.setBackground(color);
 				
 		if(this.column!=null && this.row!=null) {	
@@ -52,6 +57,7 @@ public class Square extends JLabel{
 		this.grid.insert(this.type, column, row, this.signature);
 
 		this.setOpaque(true);
+		*/
 		
 	}	
 	

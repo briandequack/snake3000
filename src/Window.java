@@ -40,7 +40,7 @@ public class Window extends JFrame{
 		}
 		if(replacement=="Game") {
 			this.addWindow(game);
-			game.start();
+			//game.start();
 			game.requestFocus();
 		}
 		if(replacement=="RestartWindow") {

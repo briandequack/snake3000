@@ -6,8 +6,7 @@ import javax.swing.JPanel;
 
 public class Snake extends JPanel{
 	
-	private Grid grid = Grid.getInstance();
-	private Canvas canvas = Canvas.getInstance();
+	private Grid grid = Grid.get();
 	private RandomColor randomColor = RandomColor.getInstance();
 	static Snake object = new Snake();
 	
@@ -47,19 +46,7 @@ public class Snake extends JPanel{
 		}
 	}
 	
-	public void delete() {
-		for (int i=0; i<this.body.length; i++) {
-			  if(this.body[i]!=null) {
-				canvas.remove(this.body[i]);  
-			  }	
-			  this.body[i]=null;
-		}
-		this.numSegments = 0;
-		this.hit = false;
-		this.eating = false;
-		canvas.revalidate();
-		canvas.repaint();
-	}
+
 	
 	public void addSegment(int column,int row, int type){
 		Game game = Game.getInstance();

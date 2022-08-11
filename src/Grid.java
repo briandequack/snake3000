@@ -2,6 +2,9 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -23,7 +26,10 @@ public class Grid extends JPanel{
 	private int[][] cells;
 	ArrayList<Cell> walls = new ArrayList<Cell>();
 	
-	Map<String, ArrayList> groups = new HashMap<String, ArrayList>();
+	Map<Integer, ArrayList> groups = new HashMap<Integer, ArrayList>();
+	Map<Integer, String> classNames = new HashMap<Integer, String>();
+	
+
 	
 			
 	private Grid(){
@@ -33,34 +39,29 @@ public class Grid extends JPanel{
 		this.setLayout(null);
 		this.setOpaque(true);
 		
-		ArrayList<Cell> group = new ArrayList<Cell>();
-		groups.put("boyds",group);
+	
 		
-		groups.get("bodys").add(new Cell(2));
-		
-		//System.out.println(groups.get("bodys"));
 		
 	}
 	
+	public void connectClass(Integer n, String className) {
+		
+		classNames.put(n, className);
+		
+	}
 	
+
 	public static Grid get() {
 		return object;
 	}
 	
 	
-	public void group(Cell cell) {
-		if(cell.type == 4) {
+
 	
-		} else if(cell.type == 2) {
-	
-		} else if(cell.type == 3) {
+	public <T> void place(T obj) {
 		
-		} else if(cell.type == 8) {
-			walls.add(cell);
-		}		
-	}
-	
-	public void place(Cell cell) {
+		
+		BaseObj cell = ((BaseObj) obj);
 		
 		boolean place = false;
 		
@@ -74,20 +75,31 @@ public class Grid extends JPanel{
 			// override
 			this.write(cell.type, cell.getColumn(), cell.getRow(), cell.signature);	
 			place = true;	
-			group(cell);
 			
 		} 
+		
+		
 		
 		if(place) {
 			
 			int x = cell.getColumn()*this.cellWidth;
 			int y = cell.getRow()*this.cellHeight;
 			if(cell.placed) {
-				cell.setLocation(x,y);
+				cell.x = x;
+				cell.y = y;			
 			} else {
-				cell.setLocation(x,y);
-				cell.setSize(this.cellWidth,this.cellHeight);		
-				canvas.add(cell);
+				
+				cell.x = x;
+				cell.y = y;
+				cell.width = this.cellWidth;
+				cell.height = this.cellHeight;
+				
+				if(groups.get(cell.type)==null) {
+					ArrayList<BaseObj> group = new ArrayList<BaseObj>(); 
+					groups.put(cell.type, group);
+				}
+				
+				groups.get(cell.type).add(cell);
 				cell.placed = true;
 							
 			}
@@ -98,7 +110,7 @@ public class Grid extends JPanel{
 	
 	public void write(int type, int column, int row, int signature) {
 		int i = 0;
-		System.out.println("type: "+type+" column: "+column+" row: "+row+" signature: "+ signature);
+		//System.out.println("type: "+type+" column: "+column+" row: "+row+" signature: "+ signature);
 		while (i<this.cells.length) {
 			if(this.cells[i][1]==column && cells[i][2]==row) {
 				this.cells[i][0]=type;
@@ -135,10 +147,37 @@ public class Grid extends JPanel{
 				this.cells[cellIndex][1] = columnIndex;
 				this.cells[cellIndex][2] = rowIndex;
 				if(level[j]!=0) {
-					Cell cell = new Cell(level[j]);
-					cell.setColumn(columnIndex);
-					cell.setRow(rowIndex);
-					this.place(cell);
+					
+				  try {
+					  Class c = Class.forName(classNames.get(level[j]));
+					  BaseObj myObject = (BaseObj) c.getDeclaredConstructor().newInstance();
+					  myObject.type = level[j];
+					  myObject.column = columnIndex;
+					  myObject.row = rowIndex;
+					  this.place(myObject);
+						
+				   
+				    } catch (InstantiationException e) {
+				      //handle it
+				    } catch (IllegalAccessException e) {
+				      //handle it
+				    } catch (IllegalArgumentException e) {
+				      //handle it
+				    } catch (InvocationTargetException e) {
+				      //handle it
+				    } catch (NoSuchMethodException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (SecurityException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (ClassNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+						
+					
+					
 				}
 				cellIndex++;
 				columnIndex++;
@@ -149,24 +188,10 @@ public class Grid extends JPanel{
 		}	
 		
 	}
+
+	   
 	
-	
-	/*
-	public void insert(int type, int column, int row, int signature) {
-		int i = 0;
-		System.out.println("running");
-		while (i<this.cells.length) {
-			if(this.cells[i][1]==column && cells[i][2]==row) {
-				this.cells[i][0]=type;
-				this.cells[i][1]=column;
-				this.cells[i][2]=row;
-				this.cells[i][3]=signature;
-				break;
-			}
-			i++;
-		}
-		
-	}*/
+
 	
 	public void print() {
 		System.out.println("\n");

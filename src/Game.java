@@ -2,7 +2,9 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Timer;
 import java.util.TimerTask;
 import javax.swing.AbstractAction;
@@ -15,7 +17,7 @@ import javax.swing.KeyStroke;
 public class Game extends JPanel{
 
 	static Game instance = new Game();
-	private Grid grid = Grid.get();
+	private Grid grid;
 	private Levels levels = Levels.get();
 	
 	//private LevelBuilder levelBuilder = LevelBuilder.getInstance();
@@ -35,19 +37,22 @@ public class Game extends JPanel{
 	
 	private Game(){
 		
-		this.setBackground(Color.RED);
+		this.setBackground(Color.YELLOW);
 		this.setPreferredSize(new Dimension(420, 420));
 		this.setLayout(new BorderLayout());
 		this.setOpaque(true);
 		
 		
-		this.add(grid);
+		grid = Grid.get();
+		grid.connectClass(8,"Wall");
+		grid.connectClass(3,"Food");
+		grid.connectClass(4,"Head");
+		grid.connectClass(2,"Body");
 		grid.mapper(levels.level1);
 		
 		
-		//System.out.println(grid.walls.get(5));
 
-
+	
 		
 		grid.print();
 		
@@ -65,6 +70,28 @@ public class Game extends JPanel{
 		this.getActionMap().put("right", right);
 	
 	}
+	
+	   public void paintComponent(Graphics g) {
+		   
+		super.paintComponent(g);
+		
+		for (int i = 0; i < grid.groups.get(8).size(); i++) {
+			((BaseObj) grid.groups.get(8).get(i)).draw(g);
+		}
+		   
+		for (int i = 0; i < grid.groups.get(4).size(); i++) {
+			((BaseObj) grid.groups.get(4).get(i)).draw(g);
+		}
+		
+		for (int i = 0; i < grid.groups.get(2).size(); i++) {
+			((BaseObj) grid.groups.get(2).get(i)).draw(g);
+		}
+		
+		for (int i = 0; i < grid.groups.get(3).size(); i++) {
+			((BaseObj) grid.groups.get(3).get(i)).draw(g);
+		}
+
+	    }
 	
 	public void start() {
 		StartWindow startWindow = StartWindow.getInstance();

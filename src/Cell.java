@@ -1,42 +1,41 @@
 import java.awt.Color;
+import java.awt.Graphics;
 
 import javax.swing.JLabel;
 
-public class Cell extends JLabel{
+public class Cell extends BaseObj{
 		
-	int x;
-	int y;
+
 	int w;
 	int h;
-	private int column;
-	private int row;
-	int prevColumn;
-	int prevRow;
-	public boolean placed = false;
 	int id;
 	public Color color = Color.MAGENTA;
-	int type = 999;
-	int signature;
-	static int n;
+	
 	
 	
 	Cell(int type) {
+		
+		
 		if(type==8) {
-			this.color = Color.BLACK;
+			//this.color = Color.BLACK;
 		} else if(type==3) {
-			this.color = Color.RED;
+		//	this.color = Color.RED;
 		} else if(type==4) {
-			this.color = Color.MAGENTA;
+		//	this.color = Color.MAGENTA;
 		} else if(type==3) {
-			this.color = Color.YELLOW;
+		//	this.color = Color.YELLOW;
 		}
 		this.type = type;
 		n++;
 		this.signature = n;
-		this.setBackground(this.color);
-		this.setOpaque(true);
+		
+				//System.out.println(" ASDF"+ this.signature);
+		//this.setBackground(this.color);
+		//this.setOpaque(true);
 
 	}
+	
+
 	
 	public void setColumn(int column)	{
 		if(this.placed) {
@@ -63,6 +62,16 @@ public class Cell extends JLabel{
 	public int getRow() {
 		return this.row;
 	}
+
+	@Override
+	public void draw(Graphics g) {
+		
+		g.setColor(Color.RED);
+		g.fillRect(this.x, this.y, this.width, this.height);
+		
+	}
+	
+
 	
 	
 }

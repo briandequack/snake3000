@@ -1,4 +1,0 @@
-
-interface CallBack {                   
-    void methodToCallBack();
-}
